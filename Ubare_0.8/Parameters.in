@@ -1,0 +1,46 @@
+
+[General]
+DOS = Bethe
+half-bandwidth = 1,
+NAt = 1
+HkFile = ../ham.100.small
+beta = 30
+totdens = 1.0  # el/d-at
+EPSN = 0 
+mu = 0.4
+readold = 0
+fileold = 
+DMFTsteps = 20
+StatisticSteps = 1
+FileNamePrefix = UbUs_1
+magnetism = para
+mixing = 0.5
+Uw=0
+
+[Atoms]
+[[1]]
+Hamiltonian = Density
+Nd = 1
+Udd = 0.8
+Jdd = 0 
+Vdd = 0
+
+
+[QMC]
+segment = 1
+#statesampling = 1
+Eigenbasis = 1
+MeasSusz = 1
+Nwarmups = 1e4
+Nmeas = 5e4
+NCorr = 1e2 
+Ntau = 1000
+Niw = 1000
+MeasGiw = 1
+FourPnt = 4
+MeasG4iwPP = 1
+N4iwf = 20
+N4iwb = 0
+
+
+
