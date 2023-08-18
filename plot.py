@@ -51,4 +51,40 @@ for n in range(len(foldername)):
     plt.legend()
 
 
+# %% Z-FACTOR FITTING! Double check the actual definition of the z-factor. Ale Notes???
+from scipy.optimize import curve_fit
+
+# G = 1 / [ (iw + igamma + iwalpha) + (mu - ek - ReSigma(0) )]
+# G = 1 / [ (iw(1+alpha) + igamma) + (mu - ek - ReSigma(0) )]
+# Z = 1/(1+alpha)
+# G = 1 / [ (iw/Z + igamma) + (mu - ek - ReSigma(w=0) )]
+# G = Z / [ (iw + Z*igamma) + Z*(mu - ek - ReSigma(w=0) )]
+# ZB = exp(−λ2/ω2).
+# Sigma = ReSigma(w=0) - igamma - iwalpha
+
+def fit_ImSigma(iw, gamma, alpha):
+    ImSigma = -gamma - alpha * iw
+    return ImSigma
+
+def fit_ImSigma_2(iw, gamma, alpha, beta):
+    ImSigma = -gamma - alpha * iw - beta * iw**2
+    return ImSigma
+
+n = 1003
+iw_limit = iw[1000:n].real
+siw_limit = (siw[0,0,1000:n]).imag
+
+#%%
+popt, pcov = curve_fit(fit_ImSigma, iw_limit, siw_limit)
+fit_sigma = fit_ImSigma(iw_limit, popt[0], popt[1])
+popt2, pcov2 = curve_fit(fit_ImSigma_2, iw_limit, siw_limit)
+fit_sigma_2 = fit_ImSigma_2(iw_limit, popt2[0], popt2[1], popt2[2])
+
+plt.figure(21)
+plt.plot(iw_limit, siw_limit)
+plt.plot(iw_limit, fit_sigma)
+plt.plot(iw_limit, fit_sigma_2)
+
+print(1/(1+popt[1]))
+print(1/(1+popt2[1]))
 # %%
