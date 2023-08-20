@@ -44,7 +44,7 @@ for n in range(len(foldername)):
         giw = np.array(f['dmft-last']['ineq-001']['giw']['value'])
         siw = np.array(f['dmft-last']['ineq-001']['siw']['value'])
     nn = 1005
-    iw_limit = iw[1000:n].real
+    iw_limit = iw[1000:nn].real
     siw_limit = (siw[0,0,1000:nn]).imag
     # popt, pcov = curve_fit(fit_ImSigma, iw_limit, siw_limit)
     # fit_sigma = fit_ImSigma(iw_limit, popt[0], popt[1])
