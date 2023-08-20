@@ -5,6 +5,14 @@ import numpy as np
 import matplotlib.pyplot as plt
 import h5py
 
+def fit_ImSigma(iw, gamma, alpha):
+    ImSigma = -gamma - alpha * iw
+    return ImSigma
+
+def fit_ImSigma_2(iw, gamma, alpha, beta):
+    ImSigma = -gamma - alpha * iw - beta * iw**2
+    return ImSigma
+
 #%%
 foldername = [
   "Ubare_2.00/",
@@ -35,13 +43,22 @@ for n in range(len(foldername)):
         gtau = np.array(f['dmft-last']['ineq-001']['gtau']['value'])
         giw = np.array(f['dmft-last']['ineq-001']['giw']['value'])
         siw = np.array(f['dmft-last']['ineq-001']['siw']['value'])
+    nn = 1005
+    iw_limit = iw[1000:n].real
+    siw_limit = (siw[0,0,1000:nn]).imag
+    # popt, pcov = curve_fit(fit_ImSigma, iw_limit, siw_limit)
+    # fit_sigma = fit_ImSigma(iw_limit, popt[0], popt[1])
+    popt2, pcov2 = curve_fit(fit_ImSigma_2, iw_limit, siw_limit)
+    fit_sigma_2 = fit_ImSigma_2(iw_limit, popt2[0], popt2[1], popt2[2])
     plt.figure(1)
     plt.plot(tau, gtau[0,0], label=foldername[n][:-1])
     plt.figure(3)
-    plt.plot(iw[1000:1030], giw[0,0,1000:1030].imag, label=foldername[n][:-1])
+    plt.plot(iw[1000:1030], giw[0,0,1000:1030].imag, label=foldername[n][:10])
     plt.figure(4)
-    plt.plot(iw[1000:1030], siw[0,0,1000:1030].imag, label=foldername[n][:-1])
+    plt.plot(iw[1000:1030], siw[0,0,1000:1030].imag, label=f"{foldername[n][:10]}, Z: {1/(1+popt2[1])}")
     plt.legend()
+    # print(1/(1+popt2[1]))
+
 
 for n in range(len(foldername)):
     sztau = np.loadtxt(foldername[n]+sztau_filename, usecols=[1,2,3])
@@ -62,15 +79,8 @@ from scipy.optimize import curve_fit
 # ZB = exp(−λ2/ω2).
 # Sigma = ReSigma(w=0) - igamma - iwalpha
 
-def fit_ImSigma(iw, gamma, alpha):
-    ImSigma = -gamma - alpha * iw
-    return ImSigma
 
-def fit_ImSigma_2(iw, gamma, alpha, beta):
-    ImSigma = -gamma - alpha * iw - beta * iw**2
-    return ImSigma
-
-n = 1003
+n = 1005
 iw_limit = iw[1000:n].real
 siw_limit = (siw[0,0,1000:n]).imag
 
