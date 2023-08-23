@@ -1,0 +1,15 @@
+README.md
+*.dat
+*hdf5
+*U11.dat
+*Parameters.in*
+maxent.in*
+*sztau.dat
+*hclm.sh
+*log
+dynamicalU.py
+dynamicalU.py_0
+Benchmarks/*
+*.e*
+*.o*
+*.sh
