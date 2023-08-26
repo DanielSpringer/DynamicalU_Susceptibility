@@ -23,6 +23,10 @@ foldername = [
 #   "dynamical/Ubare8_Usc2/w2c0_ls6c0/",
   "dynamical/Ubare8_Usc2/w4c0_ls12c0/",
   "dynamical/Ubare8_Usc3/w6_ls15c0/",
+  # "dynamical/Ubare10_Usc2/w5c0_ls20c0/",
+  "dynamical/Ubare10_Usc2/w6c0_ls24c0/",
+  "dynamical/Ubare17_Usc1/w8c0_ls64/",
+  # "dynamical/Ubare17_Usc1/w12c0_ls96/",
   ]
 filename = [
   "Bethe-CHI-2021-02-15-Mon-05-44-52.hdf5",
@@ -32,6 +36,10 @@ filename = [
 #   "HubbPlas-2023-08-20-Sun-08-17-46.hdf5",
   "HubbPlas-2023-08-20-Sun-11-10-02.hdf5",
   "HubbPlas-2023-08-20-Sun-00-29-55.hdf5",
+  # "HubbPlas-2023-08-23-Wed-08-31-46.hdf5",
+  "HubbPlas-2023-08-23-Wed-09-38-36.hdf5",
+  "HubbPlas-2023-08-23-Wed-07-16-28.hdf5",
+  # "HubbPlas-2023-08-23-Wed-09-20-24.hdf5",
   ]
 figname = [
     "static", 
@@ -40,7 +48,11 @@ figname = [
     "$U_b=5, U_s=3, \omega=2.0, \lambda=2.0$",
     # "$U_b=8, U_s=2, \omega=2.0, \lambda=6.0$"
     "$U_b=8, U_s=2, \omega=4.0, \lambda=12.0$",
-    "$U_b=8, U_s=3, \omega=6.0, \lambda=15.0$"
+    "$U_b=8, U_s=3, \omega=6.0, \lambda=15.0$",
+    # "$U_b=10, U_s=2, \omega=5.0, \lambda=20.0$",
+    "$U_b=10, U_s=2, \omega=6.0, \lambda=24.0$",
+    "$U_b=17, U_s=1, \omega=8.0, \lambda=64.0$",
+    # "$U_b=17, U_s=1, \omega=12.0, \lambda=96.0$",
 ]
 savename = [
   "Ubare4.dat",
@@ -50,6 +62,10 @@ savename = [
 #   "dynamical/Ubare8_Usc2/w2c0_ls6c0/",
   "Ubare8_Usc2_w4c0_ls12c0.dat",
   "Ubare8_Usc3_w6_ls15c0.dat",
+  # "Ubare10_Usc2_w5_ls20c0.dat",
+  "Ubare10_Usc2_w6_ls24c0.dat",
+  "Ubare17_Usc1_w8_ls64c0.dat",
+  # "Ubare17_Usc1_w12_ls96c0.dat",
 
 ]
 
@@ -99,6 +115,20 @@ for n in range(len(foldername)):
 #     plt.plot(tau, sztau[:-1,2], label=foldername[n][:-1])
 #     plt.legend()
 
+
+# %%
+window = 490
+plt.figure(4)
+for folder, name in zip(foldername, figname):
+    PATH = folder+"maxent.out.maxspec.dat"
+    data = np.loadtxt(PATH)
+    wc = int(data[:,0].shape[0]/2)
+    wmax = wc+window
+    wmin = wc-window
+    plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{name}")
+    plt.legend()
+
+
 #%%
 window = 490
 plt.figure(4)
@@ -110,5 +140,3 @@ for n in range(4):
     wmin = wc-window
     plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[n]}")
     # plt.legend()
-
-# %%
