@@ -1,0 +1,33 @@
+
+Good afternoon, Dr. Springer.
+Your mission, Daniel, should you choose to accept it, is to run DMFT calculations with U(w) for two materials at beta=40, 
+perform analytical continuations to obtain spectra, and sample the local magnetic susceptibilities.
+
+As always, should you be caught or killed, I will disavow any knowledge of your actions. This README will self-destruct in 10^7 seconds. 
+Good luck, Daniel!
+
+
+I prepared the input for 2 materials with very different interactions: 
+
+* SrVO3  (nominally 3d^1) 
+* SrMoO3 (nominally 4d^2)
+
+For both system, we restrict the low-energy subset to the t2g orbitals of the transition metal TM=V, Mo.
+Then, there is no issue with the double counting (all orbitals are correlated).
+
+The Hamiltonians in w2dynamics format are in ***material/ham.material.t2g.64000*** with material=srvo3, srmoo3
+These 3x3-orbital  H(k) are from non-local QSGW. Thus, with your U(w), we'll have QSGW+DMFT calculations.
+
+The ***number of electrons*** is
+* 1 for SrVO3
+* 2 for SrMoO3
+
+The crucial point is that the U(w=0) are somewhat comparable, but U(w-->infty) are very different, mostly because
+of the different extent of the 3d (SrVO3) and 4d (SrMoO3) orbitals. We can thus expect a larger plasmon contribution in SrMoO3.
+
+The real-frequency ***U(w)*** are in Uw-LLLL.dat (w, ReU-orb1, ImU-orb1, ... ImU-orb3). The three orbitals are degenerate.
+There are also U'(w) in Uw-LLMM.dat and J(w) in Uw-LMML.dat, but I think we can use U'(w)=U(w)-2J and J=J0,
+where J0 is the un-screened Hund's coupling that you can find in either the off-diagonals of J0nn.dat
+or in V-LMML.dat. Indeed the V-????.dat contain the unscreened interactions (that you have to put into the Parameters.in, I think)
+
+I also included ***U(iv)*** on the Matsubara axis for ***beta=40*** in the files Uiv-????.dat.
