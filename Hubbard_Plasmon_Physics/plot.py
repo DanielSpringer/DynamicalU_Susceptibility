@@ -29,6 +29,7 @@ foldername = [
   # "dynamical/Ubare17_Usc1/w12c0_ls96/",
   # "dynamical/Ubare8_Usc1/w1c0_ls3c5/",
   "dynamical/Ubare8_Usc1/w2c0_ls7c0/",
+  "dynamical/Ubare10_Usc2/w6c0_ls24c0/"
   ]
 filename = [
   "Bethe-CHI-2021-02-15-Mon-05-44-52.hdf5",
@@ -44,6 +45,7 @@ filename = [
   # "HubbPlas-2023-08-23-Wed-09-20-24.hdf5",
   # "HubbPlas-2023-08-26-Sat-18-47-02.hdf5",
   "HubbPlas-2023-08-26-Sat-19-21-07.hdf5",
+  "HubbPlas-2023-08-23-Wed-09-38-36.hdf5",
   ]
 figname = [
     "static", 
@@ -59,6 +61,7 @@ figname = [
     # "$U_b=17, U_s=1, \omega=12.0, \lambda=96.0$",
     # "$U_b=8, U_s=1, \omega=1.0, \lambda=3.5$",
     "$U_b=8, U_s=1, \omega=2.0, \lambda=7.0$",
+    "$U_b=10, U_s=2, \omega=6.0, \lambda=24.0$",
 ]
 savename = [
   "Ubare4.dat",
@@ -74,6 +77,7 @@ savename = [
   # "Ubare17_Usc1_w12_ls96c0.dat",
   # "Ubare8_Usc1_w1c0_ls3c5.dat",
   "Ubare8_Usc1_w2c0_ls7c0.dat",
+  "Ubare10_Usc2_w6_ls24c0.dat",
 ]
 
 sztau_filename = "sztau.dat"
