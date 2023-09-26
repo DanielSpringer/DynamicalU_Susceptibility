@@ -20,6 +20,7 @@ foldername = [
 #   "dynamical/Ubare5_Usc3/w0c5_ls0c5/",
 #   "dynamical/Ubare5_Usc3/w1_ls1c0/",
   "dynamical/Ubare5_Usc3/w2_ls2c0/",
+  "dynamical/Ubare7_Usc0/w2c0_ls7c0/",
 #   "dynamical/Ubare8_Usc2/w2c0_ls6c0/",
   "dynamical/Ubare8_Usc2/w4c0_ls12c0/",
   "dynamical/Ubare8_Usc3/w6_ls15c0/",
@@ -36,6 +37,7 @@ filename = [
 #   "HubbPlas-2023-08-18-Fri-08-47-18.hdf5",
 #   "HubbPlas-2023-08-18-Fri-06-36-53.hdf5",
   "HubbPlas-2023-08-18-Fri-06-22-25.hdf5",
+  "HubbPlas-2023-08-27-Sun-17-34-51.hdf5",
 #   "HubbPlas-2023-08-20-Sun-08-17-46.hdf5",
   "HubbPlas-2023-08-20-Sun-11-10-02.hdf5",
   "HubbPlas-2023-08-20-Sun-00-29-55.hdf5",
@@ -52,6 +54,7 @@ figname = [
     # "$U_b=5, U_s=3, \omega=0.5, \lambda=0.5$",
     # "$U_b=5, U_s=3, \omega=1.0, \lambda=1.0$",
     "$U_b=5, U_s=3, \omega=2.0, \lambda=2.0$",
+    "$U_b=7, U_s=0, \omega=2.0, \lambda=6.0$",
     # "$U_b=8, U_s=2, \omega=2.0, \lambda=6.0$"
     "$U_b=8, U_s=2, \omega=4.0, \lambda=12.0$",
     "$U_b=8, U_s=3, \omega=6.0, \lambda=15.0$",
@@ -68,6 +71,7 @@ savename = [
 #   "dynamical/Ubare5_Usc3/w0c5_ls0c5/",
 #   "dynamical/Ubare5_Usc3/w1_ls1c0/",
   "Ubare5_Usc3_w2_ls2c0.dat",
+  "Ubare7_Usc0_w2_ls6c0.dat",
 #   "dynamical/Ubare8_Usc2/w2c0_ls6c0/",
   "Ubare8_Usc2_w4c0_ls12c0.dat",
   "Ubare8_Usc3_w6_ls15c0.dat",
@@ -90,9 +94,10 @@ iwmaxs = []
 iw0s = []
 iws = []
 for n in range(len(foldername)):
+    print(foldername[n]+filename[n])
     with h5py.File(foldername[n]+filename[n], "r") as f:
         iw = np.array(f['.axes']['iw'][:])
-        print(foldername[n])
+        # print(foldername[n])
         tau = np.array(f['.axes']['tau'][:])
         gtau = np.array(f['dmft-last']['ineq-001']['gtau']['value'])
         giw = np.array(f['dmft-last']['ineq-001']['giw']['value'])
@@ -135,11 +140,11 @@ for n in range(len(foldername)):
 for n in range(len(foldername)):
     sztau = np.loadtxt(foldername[n]+sztau_filename, usecols=[1,2,3])
     plt.figure(2)
-    plt.plot(tau, sztau[:-1,2], label=foldername[n][:-1])
+    plt.plot(tau, sztau[:-1,2], label=f"{foldername[n][:-1]} sum: {np.trapz(x=tau, y=sztau[:-1,2])}")
 plt.legend()
 plt.xlabel(r'$\tau$')
 plt.title("Sztau")
-
+# sum(sztau[:-1,2])*50/1000
 #%%
 plt.figure(211)
 for n in range(len(foldername)):
@@ -179,7 +184,9 @@ for folder, name in zip(foldername, figname):
 # %% SPEZIFISCHE PLOTS
 plt.figure(4)
 plt.plot(iws[0][iw0s[0]:iwmaxs[0]], siws[0][0,0,iw0s[0]:iwmaxs[0]].imag, label=f"{figname[0]}, Z: {round(1/(1+popt2s[0][1]), 2)}")
-plt.plot(iws[6][iw0s[6]:iwmaxs[6]], siws[6][0,0,iw0s[6]:iwmaxs[6]].imag, label=f"{figname[6]}, Z: {round(1/(1+popt2s[6][1]), 2)}")
+plt.plot(iws[2][iw0s[2]:iwmaxs[2]], siws[2][0,0,iw0s[2]:iwmaxs[2]].imag, label=f"{figname[2]}, Z: {round(1/(1+popt2s[2][1]), 2)}")
+plt.plot(iws[7][iw0s[7]:iwmaxs[7]], siws[7][0,0,iw0s[7]:iwmaxs[7]].imag, label=f"{figname[7]}, Z: {round(1/(1+popt2s[7][1]), 2)}")
+# plt.plot(iws[6][iw0s[6]:iwmaxs[6]], siws[6][0,0,iw0s[6]:iwmaxs[6]].imag, label=f"{figname[6]}, Z: {round(1/(1+popt2s[6][1]), 2)}")
 plt.title("siw")
 plt.legend()
 
@@ -191,20 +198,29 @@ wc = int(data[:,0].shape[0]/2)
 wmax = wc+window
 wmin = wc-window
 plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[0]}")
-PATH = foldername[6]+"maxent.out.maxspec.dat"
+PATH = foldername[2]+"maxent.out.maxspec.dat"
 data = np.loadtxt(PATH)
 wc = int(data[:,0].shape[0]/2)
 wmax = wc+window
 wmin = wc-window
-plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[6]}")
+plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[2]}")
+plt.legend()
+PATH = foldername[7]+"maxent.out.maxspec.dat"
+data = np.loadtxt(PATH)
+wc = int(data[:,0].shape[0]/2)
+wmax = wc+window
+wmin = wc-window
+plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[7]}")
 plt.legend()
 
 #%%
 plt.figure(2)
 sztau = np.loadtxt(foldername[0]+sztau_filename, usecols=[1,2,3])
-plt.plot(tau, sztau[:-1,2], label=foldername[0][:-1])
-sztau = np.loadtxt(foldername[6]+sztau_filename, usecols=[1,2,3])
-plt.plot(tau, sztau[:-1,2], label=foldername[6][:-1])
+plt.plot(tau, sztau[:-1,2], label=f"{foldername[7][:-1]} differential: {np.gradient(tau,sztau[:-1,2])[0]}")
+sztau = np.loadtxt(foldername[2]+sztau_filename, usecols=[1,2,3])
+plt.plot(tau, sztau[:-1,2], label=f"{foldername[7][:-1]} differential: {np.gradient(tau,sztau[:-1,2])[0]}")
+sztau = np.loadtxt(foldername[7]+sztau_filename, usecols=[1,2,3])
+plt.plot(tau, sztau[:-1,2], label=f"{foldername[7][:-1]} differential: {np.gradient(tau,sztau[:-1,2])[0]}")
 plt.legend()
 plt.xlabel(r'$\tau$')
 plt.title("Sztau")
@@ -214,11 +230,14 @@ ntau11 = np.loadtxt(foldername[0]+ntau11_filename, usecols=[5,6,7])
 ntau11 = np.array(ntau11)
 ntau11 = ntau11[:,2] -0.25
 plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[0][:-1]}")
-ntau11 = np.loadtxt(foldername[6]+ntau11_filename, usecols=[5,6,7])
+ntau11 = np.loadtxt(foldername[2]+ntau11_filename, usecols=[5,6,7])
 ntau11 = np.array(ntau11)
 ntau11 = ntau11[:,2] -0.25
-plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[6][:-1]}")
-
+plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[2][:-1]}")
+ntau11 = np.loadtxt(foldername[7]+ntau11_filename, usecols=[5,6,7])
+ntau11 = np.array(ntau11)
+ntau11 = ntau11[:,2] -0.25
+plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[7][:-1]}")
 plt.title("Ntau11 - 0.25")
 plt.yscale("log")  
 plt.xlabel(r'$\tau$')
@@ -226,12 +245,23 @@ plt.legend()
 
 plt.figure(3)
 ntau12 = np.loadtxt(foldername[0]+ntau12_filename, usecols=[5,6,7])
-plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[6][:-1]}")
-ntau12 = np.loadtxt(foldername[6]+ntau12_filename, usecols=[5,6,7])
-plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[6][:-1]}")
+plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[0][:-1]}")
+ntau12 = np.loadtxt(foldername[2]+ntau12_filename, usecols=[5,6,7])
+plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[2][:-1]}")
+ntau12 = np.loadtxt(foldername[7]+ntau12_filename, usecols=[5,6,7])
+plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[7][:-1]}")
 plt.title("Ntau12")
 plt.yscale("log")  
 plt.xlabel(r'$\tau$')
 plt.legend()
 
+# %%
+lam = 7
+wp = 2
+np.exp(-lam/wp**2)
+
+#%%
+x = np.linspace(0,1,10)
+y = x**2
+np.gradient(y,x)
 # %%

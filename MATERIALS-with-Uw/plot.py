@@ -49,7 +49,9 @@ popt2s = []
 iwmaxs = []
 iw0s = []
 iws = []
-for n in range(len(foldername)):
+### Setting different noise levels for the two compounds...
+# for n in range(0,len(foldername)-1):
+for n in range(0,len(foldername)):
     with h5py.File(foldername[n]+filename[n], "r") as f:
         iw = np.array(f['.axes']['iw'][:])
         print(foldername[n])
@@ -90,14 +92,15 @@ for n in range(len(foldername)):
     data = np.zeros((gtau.shape[2],3))
     data[:,0] = tau.transpose()
     data[:,1] = -gtau[0,1].transpose()
-    data[:,2] = 1e-3
+    data[:,2] = 9e-5
     np.savetxt(foldername[n]+savename[n], data)
 
 #%%
 for n in range(len(foldername)):
     sztau = np.loadtxt(foldername[n]+sztau_filename, usecols=[1,2,3])
     plt.figure(2)
-    plt.plot(tau, sztau[:-1,2], label=foldername[n][:-1])
+    plt.plot(tau, sztau[:-1,2], label=f"{foldername[n][:-1]} sum: {np.trapz(x=tau, y=sztau[:-1,2])}")
+    # plt.plot(tau, sztau[:-1,2], label=f"{foldername[n][:-1]} differential: {np.gradient(tau,sztau[:-1,2])[0]}")
 plt.legend()
 plt.xlabel(r'$\tau$')
 plt.title("Sztau")
