@@ -35,6 +35,11 @@ foldername = [
 #   "dynamical/Ubare9c0_Usc1/w2c0_ls8c0/"
   "dynamical/Ubare7c5_Usc1/w2c0_ls6c5/",
   "dynamical/Ubare7_Usc1/w2c0_ls6c0/",
+  "dynamical/Ubare16_Usc0/w15c0_ls120/",
+  "dynamical/Ubare16_Usc0/w5c0_ls40/",
+  "static/Ubare2/",
+  "static/Ubare2c5/",
+#   "static/Ubare3/",
   ]
 filename = [
   "Bethe-CHI-2021-02-15-Mon-05-44-52.hdf5",
@@ -55,10 +60,15 @@ filename = [
 #   "HubbPlas-2023-09-30-Sat-19-45-35.hdf5",
 #   "HubbPlas-2023-09-30-Sat-15-50-51.hdf5",
   "HubbPlas-2023-10-01-Sun-06-26-18.hdf5",
-  "HubbPlas-2023-08-27-Sun-09-19-55.hdf5"
+  "HubbPlas-2023-08-27-Sun-09-19-55.hdf5",
+  "HubbPlas_2-2023-10-13-Fri-19-12-19.hdf5",
+  "HubbPlas-2023-10-13-Fri-09-19-14.hdf5",
+  "HubbPlas-2023-08-26-Sat-20-43-55.hdf5",
+  "HubbPlas-2023-10-13-Fri-21-37-17.hdf5",
+#   "HubbPlas-2023-10-13-Fri-21-32-13.hdf5"
   ]
 figname = [
-    "static", 
+    "static U4", 
     # "$U_b=5, U_s=3, \omega=0.5, \lambda=0.5$",
     # "$U_b=5, U_s=3, \omega=1.0, \lambda=1.0$",
     "$U_b=5, U_s=3, \omega=2.0, \lambda=2.0$",
@@ -77,6 +87,12 @@ figname = [
     # "$U_b=9, U_s=1, \omega=2.0, \lambda=8.0$",
     "$U_b=7.5, U_s=1, \omega=2.0, \lambda=6.5$",
     "$U_b=7.0, U_s=1, \omega=2.0, \lambda=6.0$",
+    "$U_b=16.0, U_s=0, \omega=15.0, \lambda=120.0$",
+    "$U_b=16.0, U_s=0, \omega=5.0, \lambda=40.0$",
+    "static U2", 
+    "static U2c5", 
+    "static U3", 
+
 ]
 savename = [
   "Ubare4.dat",
@@ -98,6 +114,11 @@ savename = [
 #   "Ubare9_Usc1_w2c0_ls8c0.dat",
   "Ubare7c5_Usc1_w2c0_ls6c5.dat",
   "Ubare7c0_Usc1_w2c0_ls6c0.dat",
+  "Ubare16c0_Usc0_w15c0_ls120c0.dat",
+  "Ubare16c0_Usc0_w5c0_ls40c0.dat",
+  "Ubare2.dat",
+  "Ubare2c5.dat",
+  "Ubare3.dat",
 ]
 
 sztau_filename = "sztau.dat"
@@ -222,27 +243,36 @@ wc = int(data[:,0].shape[0]/2)
 wmax = wc+window
 wmin = wc-window
 plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[2]}")
-# plt.legend()
-# PATH = foldername[7]+"maxent.out.maxspec.dat"
-# data = np.loadtxt(PATH)
-# wc = int(data[:,0].shape[0]/2)
-# wmax = wc+window
-# wmin = wc-window
-# plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[7]}")
-# plt.legend()
-# PATH = foldername[9]+"maxent.out.maxspec.dat"
-# data = np.loadtxt(PATH)
-# wc = int(data[:,0].shape[0]/2)
-# wmax = wc+window
-# wmin = wc-window
-# plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[9]}")
-# plt.legend()
 PATH = foldername[10]+"maxent.out.maxspec.dat"
 data = np.loadtxt(PATH)
 wc = int(data[:,0].shape[0]/2)
 wmax = wc+window
 wmin = wc-window
 plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[10]}")
+plt.legend()
+
+#%%
+plt.figure(51)
+PATH = foldername[11]+"maxent.out.maxspec.dat"
+data = np.loadtxt(PATH)
+wc = int(data[:,0].shape[0]/2)
+window = 495
+wmax = wc+window
+wmin = wc-window
+plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[11]}")
+PATH = foldername[14]+"maxent.out.maxspec.dat"
+data = np.loadtxt(PATH)
+wc = int(data[:,0].shape[0]/2)
+window = 500
+wmax = wc+window
+wmin = wc-window
+plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[14]}")
+# PATH = foldername[12]+"maxent.out.maxspec.dat"
+# data = np.loadtxt(PATH)
+# wc = int(data[:,0].shape[0]/2)
+# wmax = wc+window
+# wmin = wc-window
+# plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[12]}")
 plt.legend()
 
 #%%
@@ -313,3 +343,40 @@ x = np.linspace(0,1,10)
 y = x**2
 np.gradient(y,x)
 # %%
+
+
+#%%
+plt.figure(2)
+sztau = np.loadtxt(foldername[11]+sztau_filename, usecols=[1,2,3])
+plt.plot(tau, sztau[:-1,2], label=f"{foldername[11][:-1]} differential: {np.gradient(tau,sztau[:-1,2])[11]}")
+sztau = np.loadtxt(foldername[14]+sztau_filename, usecols=[1,2,3])
+plt.plot(tau, sztau[:-1,2], label=f"{foldername[14][:-1]} differential: {np.gradient(tau,sztau[:-1,2])[14]}")
+plt.legend()
+plt.xlabel(r'$\tau$')
+plt.title("Sztau")
+
+
+#%%
+plt.figure(211)
+ntau11 = np.loadtxt(foldername[11]+ntau11_filename, usecols=[5,6,7])
+ntau11 = np.array(ntau11)
+ntau11 = ntau11[:,2] -0.25
+plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[11][:-1]}")
+ntau11 = np.loadtxt(foldername[14]+ntau11_filename, usecols=[5,6,7])
+ntau11 = np.array(ntau11)
+ntau11 = ntau11[:,2] -0.25
+plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[14][:-1]}")
+plt.title("Ntau11 - 0.25")
+plt.yscale("log")  
+plt.xlabel(r'$\tau$')
+plt.legend()
+
+plt.figure(3)
+ntau12 = np.loadtxt(foldername[11]+ntau12_filename, usecols=[5,6,7])
+plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[11][:-1]}")
+ntau12 = np.loadtxt(foldername[14]+ntau12_filename, usecols=[5,6,7])
+plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[14][:-1]}")
+plt.title("Ntau12")
+plt.yscale("log")  
+plt.xlabel(r'$\tau$')
+plt.legend()
