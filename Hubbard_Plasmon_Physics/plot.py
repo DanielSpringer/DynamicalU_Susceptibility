@@ -164,7 +164,7 @@ for n in range(len(foldername)):
     plt.figure(4)
     plt.plot(iw[iw0:iwmax], siw[0,0,iw0:iwmax].imag, label=f"{figname[n]}, Z: {round(1/(1+popt2[1]), 2)}")
     plt.title("siw")
-    plt.legend()
+    # plt.legend()
     # print(1/(1+popt2[1]))
 
     data = np.zeros((gtau.shape[2],3))
@@ -192,7 +192,7 @@ for n in range(len(foldername)):
 plt.title("Ntau11 - 0.25")
 plt.yscale("log")  
 plt.xlabel(r'$\tau$')
-plt.legend()
+# plt.legend()
 
 plt.figure(3)
 for n in range(len(foldername)):
@@ -201,7 +201,7 @@ for n in range(len(foldername)):
 plt.title("Ntau12")
 plt.yscale("log")  
 plt.xlabel(r'$\tau$')
-plt.legend()
+# plt.legend()
 
 
 # %%
@@ -214,8 +214,68 @@ for folder, name in zip(foldername, figname):
     wmax = wc+window
     wmin = wc-window
     plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{name}")
-    plt.legend()
+    # plt.legend()
 
+#%%
+import plotly
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
+
+s = 0
+e = -1
+marker_dict = dict(
+        size=1.3,
+        color='red',
+        colorscale='Viridis',
+    )
+line_dict = dict(
+        color='darkblue',
+        width=2
+    )
+
+fig = go.Figure()
+step = 0
+for folder, name in zip(foldername, figname):
+    PATH = folder+"maxent.out.maxspec.dat"
+    data = np.loadtxt(PATH)
+    wc = int(data[:,0].shape[0]/2)
+    wmax = wc+window
+    wmin = wc-window
+    x = np.zeros(data[wmin:wmax,0].shape[0]) + step
+    fig.add_trace(
+        go.Scatter3d(
+        x=x, y=data[wmin:wmax,0], z=data[wmin:wmax,1],
+        marker=marker_dict,
+        line=line_dict,
+        name=folder
+    ))
+    step += 0.3
+
+
+
+fig.update_layout(
+    width=800,
+    height=700,
+    autosize=False,
+    scene=dict(
+        camera=dict(
+            up=dict(
+                x=0,
+                y=0,
+                z=1
+            ),
+            eye=dict(
+                x=0,
+                y=1.0707,
+                z=1,
+            )
+        ),
+        aspectratio = dict( x=1, y=1, z=0.7 ),
+        aspectmode = 'manual'
+    ),
+)
+
+fig.show()
 
 
 # %% SPEZIFISCHE PLOTS
