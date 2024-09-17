@@ -1,0 +1,1 @@
+The plasmonic peak produces a delta function in the imaginary part of U(w) and this is not properly taken care of in the calculation of the screening function.

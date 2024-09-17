@@ -122,7 +122,7 @@ def fixed_omega(config, U_st_grid, U_sc_grid, w0):
             os.system(prompt)
             prompt = "./Create_Parametersin " + str(ust) + " " + str(mu) + " " + Steps + " " + Nmeas + " " + Ncorr + " " + fileold + " " + str(beta) + " " + str(J) + " " + str(V) + " " + CurrentFile + " " + str(readold) + " " + str(MeasSusz) + " " + str(Uw) + " " + str(StatSteps) + " " + str(N4wf)
             os.system(prompt)
-            # os.system("sbatch hclm.slrm")
+            os.system("sbatch hclm.slrm")
 
             os.chdir("../../")
 
