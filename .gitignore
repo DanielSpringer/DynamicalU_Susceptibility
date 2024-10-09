@@ -1,3 +1,4 @@
+
 README.md
 *.dat
 *hdf5
@@ -13,3 +14,22 @@ Benchmarks/*
 *.e*
 *.o*
 *.sh
+.vscode/settings.json
+.gitignore
+PhaseSpace/lam_4_intersect.pdf
+PhaseSpace/lam_4_spectra_680.pdf
+PhaseSpace/lam_8_intersect.pdf
+PhaseSpace/lam_8_spectra_680.pdf
+PhaseSpace/lam_20_intersect.pdf
+PhaseSpace/lam_20_spectra_680.pdf
+PhaseSpace/lam_20_spectra_Z0.7.pdf
+PhaseSpace/lam_100_intersect.pdf
+PhaseSpace/w0_2_intersect.pdf
+PhaseSpace/w0_2_spectra_680_2.pdf
+PhaseSpace/w0_2_spectra_680.pdf
+PhaseSpace/w0_4_intersect.pdf
+PhaseSpace/w0_4_spectra_680_2.pdf
+PhaseSpace/w0_4_spectra_680.pdf
+PhaseSpace/w0_4_spectra_Z0.7.pdf
+PhaseSpace/w0lam_1_800_spectra.html
+PhaseSpace/w0lam_1_800_spectra.pdf
