@@ -14,6 +14,7 @@ Benchmarks/*
 *.e*
 *.o*
 *.sh
+hclm.slrm
 .vscode/settings.json
 .gitignore
 PhaseSpace/lam_4_intersect.pdf
