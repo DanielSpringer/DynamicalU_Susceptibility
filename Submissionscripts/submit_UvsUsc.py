@@ -6,13 +6,13 @@ import run_tools as rt
 
 # sys.argv[1]
 config = {
-    "Steps": "30",
-    "Nmeas": "5e4",
+    "Steps": "1",
+    "Nmeas": "1e5",
     "Ncorr": "1e2",
     "beta": 20,
-    "CurrentFile": "oo_1",
-    "readold": 0,
-    "MeasSusz": 0,
+    "CurrentFile": "oo_2",
+    "readold": -1,
+    "MeasSusz": 1,
     "Uw": 1,
     "StatSteps": 0,
     "N4wf": 20,
@@ -43,28 +43,35 @@ if config["set_lam"] != -1:
 if config["w0"] != -1:
     ### SETTINGS w0 = 2
     if config["w0"] == 2.0:
-        U_st_min = 2.0
-        U_st_max = 10.0
-        U_st_steps = 11
+        U_st_min = 2.2
+        U_st_max = 2.2
+        U_st_steps = 1
+        # U_st_min = 2.0
+        # U_st_max = 10.0
+        # U_st_steps = 11
         U_st_grid = np.linspace(U_st_min, U_st_max, U_st_steps)
 
-        U_sc_min = 0.0
-        U_sc_max = 2.0
-        U_sc_steps = 11
+        U_sc_min = 2.2
+        U_sc_max = 2.2
+        U_sc_steps = 1
         U_sc_grid = np.linspace(U_sc_min, U_sc_max, U_sc_steps)
 
     if config["w0"] == 4.0:
-        U_st_min = 2.0
-        U_st_max = 10.0
-        U_st_steps = 11
+        # U_st_min = 0.0 #3.2 #3.0 #2.4 #2.6 #2.2
+        # U_st_max = 1.8 #3.2 #3.0 #2.4 #2.6 #2.2
+        U_st_min = 2.2
+        U_st_max = 2.6
+        U_st_steps = 3
+        # U_st_min = 2.0
+        # U_st_max = 10.0
+        # U_st_steps = 11
         U_st_grid = np.linspace(U_st_min, U_st_max, U_st_steps)
 
-        U_sc_min = 2.1
-        U_sc_max = 2.7
-        U_sc_steps = 7
-        # U_sc_min = 2.8
-        # U_sc_max = 10.0
-        # U_sc_steps = 10
+        U_sc_min = 2.2 #2.2
+        U_sc_max = 2.6 #3.0 #2.4 #2.6 #2.2
+        # U_sc_min = 0.0 #2.2
+        # U_sc_max = 1.8 #3.2 #3.0 #2.4 #2.6 #2.2
+        U_sc_steps = 3
         U_sc_grid = np.linspace(U_sc_min, U_sc_max, U_sc_steps)
 
     ### SETTINGS w0 = 1 
