@@ -1,0 +1,19 @@
+#!/bin/bash
+#SBATCH --job-name=ana_cont
+#SBATCH -N 1
+#SBATCH --ntasks=1
+#SBATCH --cpus-per-task=1
+#SBATCH --partition=short
+# Different units can be specified using the suffix [K|M|G|T].
+#SBATCH --mem=100G
+
+FILES=(/home/daniel/XInstalls/anaconda3/*)
+source /home/daniel/XInstalls/anaconda3/bin/activate
+conda init bash
+# Load your Python environment here (edit to match your cluster)
+# Example: conda
+# source ~/.bashrc
+conda activate maxent 
+
+
+mpirun python /mnt/scratch/daniel/Data/DynamicalU_Susceptibility/PhaseSpace/Ust_vs_Usc/beta30/Heatmap_Plots_newaxis.py
