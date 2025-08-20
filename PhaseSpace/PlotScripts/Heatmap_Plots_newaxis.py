@@ -120,7 +120,7 @@ for freq in frequencies:
                     if int(U1)>1250:
                         if freq == "w0_4": lpt = "oo_3"
                         if freq == "w0_2": lpt = "oo_3"
-                lpt = "oo_5"
+                lpt = "oo_4"
 
                 if lpt in file:# or "oo_3" in file:
                     filename = subdir+'/'+file
@@ -327,8 +327,8 @@ if isoaim == 0.65:
     del isozete_ref[-1:]
 # Z = 0.7
 if isoaim == 0.7:
-    del isozete_idx[-3:]
-    del isozete_ref[-3:]
+    del isozete_idx[-2:]
+    del isozete_ref[-2:]
 
 isozete_ref = np.array(isozete_ref, dtype=int)
 isozete_idx_ref = np.array(isozete_idx_ref, dtype=int)
@@ -377,12 +377,12 @@ print(hk.shape)
 
 # %%capture
 
-niw = 300    # number of Matsubara frequencies
+niw = 600    # number of Matsubara frequencies
 iw_max = niw
 wn = np.pi/beta * (2.*np.arange(iw_max) + 1.)
 iv = data[freq][str(U_st[0])][str(U_sc[0])]["iv"][1000:1000+iw_max]
-nw =  2000   # number of real frequencies
-wmax = 6
+nw =  4000   # number of real frequencies
+wmax = 12
 w = np.linspace(-wmax, wmax, num=nw, endpoint=True)                        
 
 noise_amplitude = 2e-3
@@ -396,7 +396,7 @@ giw = []
 print(f" Total samples for this Z={isoaim} value: ", len(isozete_ref))
 t0 = time.perf_counter()
 for n,U in enumerate(isozete_ref):#.transpose():
-    # if n==0:
+    # if n==8:
         print(U)
         siw = data[freq][str(U[0])][str(U[1])]["siv"][0,0,1000:]
         mu = data[freq][str(U[0])][str(U[1])]["mu"]
@@ -431,8 +431,8 @@ for n,U in enumerate(isozete_ref):#.transpose():
         # giw.append(1 / (w[:,None] - hk[None,:] + mu[0,0] - sw[:,None]))
         giw = (1 / (w[:,None] - hk[None,:] + mu[0,0] - sw[:,None]))
 
-        np.savez_compressed(f"saves_Z0c65_d/spectra_U1_{isozete_ref[n,0]}_U2_{isozete_ref[n,1]}_nw{nw}_wmax{wmax}_niw{niw}_noise_amplitude{noise_amplitude}.npz", w=w, siws=siw, giw=giw)
-        print("Saved:, ", f"saves_Z0c65_d/spectra_U1_{isozete_ref[n,0]}_U2_{isozete_ref[n,1]}_nw{nw}_wmax{wmax}_niw{niw}_noise_amplitude{noise_amplitude}.npz")
+        np.savez_compressed(f"saves_Z0c65_fin/spectra_U1_{isozete_ref[n,0]}_U2_{isozete_ref[n,1]}_nw{nw}_wmax{wmax}_niw{niw}_noise_amplitude{noise_amplitude}.npz", w=w, siws=siw, giw=giw)
+        print("Saved:, ", f"saves_Z0c65_fin/spectra_U1_{isozete_ref[n,0]}_U2_{isozete_ref[n,1]}_nw{nw}_wmax{wmax}_niw{niw}_noise_amplitude{noise_amplitude}.npz")
         # break
 
 dt = time.perf_counter() - t0
