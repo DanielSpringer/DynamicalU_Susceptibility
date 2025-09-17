@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+#SBATCH -J U(w)
+#SBATCH -N 1
+#SBATCH --ntasks=16
+#SBATCH --cpus-per-task=6
+#SBATCH --mail-type=BEGIN    # first have to state the type of event to occur 
+#SBATCH --mail-user=<daniel.springer@gmx.at>   # and then your email address
+#SBATCH --time=01:00:00
+
+FILES=(/home/daniel/XInstalls/anaconda3/*)
+source /home/daniel/XInstalls/anaconda3/bin/activate
+conda init bash
+#source ~/.bashrc
+conda activate w2dyn_p38
+
+# when srun is used, you need to set:
+mpirun python /home/daniel/XInstalls/w2dynamics/DMFT.py
+# or
+#<mpirun -np 96 a.out>

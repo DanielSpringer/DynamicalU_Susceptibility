@@ -1,0 +1,18 @@
+#!/bin/bash
+
+#SBATCH -J U(w)
+#SBATCH -N 1
+#SBATCH --ntasks=8
+#SBATCH --cpus-per-task=2
+#SBATCH --partition=short
+# Different units can be specified using the suffix [K|M|G|T].
+#SBATCH --mem=100G
+
+FILES=(/home/daniel/XInstalls/anaconda3/*)
+source /home/daniel/XInstalls/anaconda3/bin/activate
+conda init bash
+#source ~/.bashrc
+conda activate w2dyn_p38
+
+# when srun is used, you need to set:
+mpirun python /home/daniel/XInstalls/w2dynamics/DMFT.py
