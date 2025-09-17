@@ -16,29 +16,51 @@ def fit_ImSigma_2(iw, gamma, alpha, beta):
 
 #%%
 foldername = [
-  "SrVO3/",
-  "SrMoO3/",
+  "/mnt/scratch/daniel/Data/DynamicalU_Susceptibility/MATERIALS-with-Uw/SrVO3/",
+  "/mnt/scratch/daniel/Data/DynamicalU_Susceptibility/MATERIALS-with-Uw/SrMoO3/",
+  "/mnt/scratch/daniel/Data/DynamicalU_Susceptibility/MATERIALS-with-Uw/SrMoO3_J0/",
+  "/mnt/scratch/daniel/Data/DynamicalU_Susceptibility/MATERIALS-with-Uw/SrVO3_DFT/",
+  "/mnt/scratch/daniel/Data/DynamicalU_Susceptibility/MATERIALS-with-Uw/SrVO3_DFTUw/",
   ]
 filename = [
-  "SrVO3_2-2023-09-09-Sat-21-25-50.hdf5",
-  "SrMoO3_1-2023-09-07-Thu-18-56-48.hdf5"
+  "SrVO3_3-2025-09-15-Mon-13-15-43.hdf5",
+  "SrMoO3_4-2025-09-15-Mon-13-37-52.hdf5",
+  "SrMoO3_5-2025-09-16-Tue-09-19-10.hdf5",
+  "SrVO3_4-2025-09-14-Sun-22-18-58.hdf5",
+  "SrVO3_3-2025-09-14-Sun-23-01-37.hdf5"
   ]
 figname = [
     "SrVO3", 
     "SrMoO3", 
+    "SrMoO3_J0", 
+    "SrVO3_DFT", 
+    "SrVO3_DFTUw", 
 ]
 savename = [
-  "SrVO3.dat",
-  "SrMoO3.dat",
+    "SrVO3.dat",
+    "SrMoO3.dat",
+    "SrMoO3_J0.dat", 
+    "SrVO3_DFT.dat", 
+    "SrVO3_DFTUw.dat", 
 ]
 double_occ = [
-    0.00591403, 
-    0.0056532, 
-    0.00594925, 
-    0.00719721, 
-    0.00692405, 
-    0.00723876
+    0.0059291, 
+    0.00583453, 
+    0.00591875, 
+    0.0562733,
+    0.0562733,
+    0.0562733,
+    0.0617116,
+    0.0617116,
+    0.0617116,
+    0.00313182,
+    0.00313182,
+    0.00313182,
+    0.00378062,
+    0.00378062,
+    0.00378062,
 ]
+double_occ = np.array(double_occ)
 
 sztau_filename = "sztau.dat"
 ntau11_filename = "ntau1111.dat"
@@ -97,9 +119,12 @@ for n in range(0,len(foldername)):
 
 #%%
 for n in range(len(foldername)):
+    print(foldername[n])
     sztau = np.loadtxt(foldername[n]+sztau_filename, usecols=[1,2,3])
+    print(sztau.shape)
     plt.figure(2)
-    plt.plot(tau, sztau[:-1,2], label=f"{foldername[n][:-1]} sum: {np.trapz(x=tau, y=sztau[:-1,2])}")
+    # plt.plot(tau, sztau[:-1,2], label=f"{foldername[n][:-1]} sum: {np.trapz(x=tau, y=sztau[:-1,2])}")
+    plt.plot(sztau[:-1,2])
     # plt.plot(tau, sztau[:-1,2], label=f"{foldername[n][:-1]} differential: {np.gradient(tau,sztau[:-1,2])[0]}")
 plt.legend()
 plt.xlabel(r'$\tau$')
@@ -111,7 +136,7 @@ for n in range(len(foldername)):
     ntau11 = np.loadtxt(foldername[n]+ntau11_filename, usecols=[5,6,7])
     ntau11 = np.array(ntau11)
     ntau11 = ntau11[:,2] - double_occ[3*n]
-    plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[n][:-1]}")
+    plt.plot(ntau11[:], label=f"Ntau11 {foldername[n][-12:]}")
 plt.title(f"Ntau11 - double_occ")
 plt.yscale("log")  
 plt.xlabel(r'$\tau$')
@@ -120,14 +145,14 @@ plt.legend()
 plt.figure(3)
 for n in range(len(foldername)):
     ntau12 = np.loadtxt(foldername[n]+ntau12_filename, usecols=[5,6,7])
-    plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[n][:-1]}")
+    plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[n][-12:]}")
 plt.title("Ntau12")
 plt.yscale("log")  
 plt.xlabel(r'$\tau$')
 plt.legend()
 
 
-# %%
+# %% CONTINUATION!
 window = 490
 plt.figure(4)
 for folder, name in zip(foldername, figname):
@@ -136,12 +161,12 @@ for folder, name in zip(foldername, figname):
     wc = int(data[:,0].shape[0]/2)
     wmax = wc+window
     wmin = wc-window
-    plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{name}")
+    plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{name[-8:]}")
     plt.legend()
 
 
 
-# %% SPEZIFISCHE PLOTS
+    # %% SPEZIFISCHE PLOTS
 plt.figure(4)
 plt.plot(iws[0][iw0s[0]:iwmaxs[0]], siws[0][0,0,iw0s[0]:iwmaxs[0]].imag, label=f"{figname[0]}, Z: {round(1/(1+popt2s[0][1]), 2)}")
 plt.plot(iws[6][iw0s[6]:iwmaxs[6]], siws[6][0,0,iw0s[6]:iwmaxs[6]].imag, label=f"{figname[6]}, Z: {round(1/(1+popt2s[6][1]), 2)}")
@@ -164,39 +189,39 @@ wmin = wc-window
 plt.plot(data[wmin:wmax,0], data[wmin:wmax,1], label=f"{figname[6]}")
 plt.legend()
 
-#%%
-plt.figure(2)
-sztau = np.loadtxt(foldername[0]+sztau_filename, usecols=[1,2,3])
-plt.plot(tau, sztau[:-1,2], label=foldername[0][:-1])
-sztau = np.loadtxt(foldername[6]+sztau_filename, usecols=[1,2,3])
-plt.plot(tau, sztau[:-1,2], label=foldername[6][:-1])
-plt.legend()
-plt.xlabel(r'$\tau$')
-plt.title("Sztau")
+# #%%
+# plt.figure(2)
+# sztau = np.loadtxt(foldername[0]+sztau_filename, usecols=[1,2,3])
+# plt.plot(tau, sztau[:-1,2], label=foldername[0][:-1])
+# sztau = np.loadtxt(foldername[6]+sztau_filename, usecols=[1,2,3])
+# plt.plot(tau, sztau[:-1,2], label=foldername[6][:-1])
+# plt.legend()
+# plt.xlabel(r'$\tau$')
+# plt.title("Sztau")
 
-plt.figure(211)
-ntau11 = np.loadtxt(foldername[0]+ntau11_filename, usecols=[5,6,7])
-ntau11 = np.array(ntau11)
-ntau11 = ntau11[:,2] -0.25
-plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[0][:-1]}")
-ntau11 = np.loadtxt(foldername[6]+ntau11_filename, usecols=[5,6,7])
-ntau11 = np.array(ntau11)
-ntau11 = ntau11[:,2] -0.25
-plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[6][:-1]}")
+# plt.figure(211)
+# ntau11 = np.loadtxt(foldername[0]+ntau11_filename, usecols=[5,6,7])
+# ntau11 = np.array(ntau11)
+# ntau11 = ntau11[:,2] -0.25
+# plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[0][:-1]}")
+# ntau11 = np.loadtxt(foldername[6]+ntau11_filename, usecols=[5,6,7])
+# ntau11 = np.array(ntau11)
+# ntau11 = ntau11[:,2] -0.25
+# plt.plot(tau[:120], ntau11[:120], label=f"Ntau11 {foldername[6][:-1]}")
 
-plt.title("Ntau11 - 0.25")
-plt.yscale("log")  
-plt.xlabel(r'$\tau$')
-plt.legend()
+# plt.title("Ntau11 - 0.25")
+# plt.yscale("log")  
+# plt.xlabel(r'$\tau$')
+# plt.legend()
 
-plt.figure(3)
-ntau12 = np.loadtxt(foldername[0]+ntau12_filename, usecols=[5,6,7])
-plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[6][:-1]}")
-ntau12 = np.loadtxt(foldername[6]+ntau12_filename, usecols=[5,6,7])
-plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[6][:-1]}")
-plt.title("Ntau12")
-plt.yscale("log")  
-plt.xlabel(r'$\tau$')
-plt.legend()
+# plt.figure(3)
+# ntau12 = np.loadtxt(foldername[0]+ntau12_filename, usecols=[5,6,7])
+# plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[6][:-1]}")
+# ntau12 = np.loadtxt(foldername[6]+ntau12_filename, usecols=[5,6,7])
+# plt.plot(tau[:120], ntau12[:120,2], label=f"Ntau12 {foldername[6][:-1]}")
+# plt.title("Ntau12")
+# plt.yscale("log")  
+# plt.xlabel(r'$\tau$')
+# plt.legend()
 
 # %%
